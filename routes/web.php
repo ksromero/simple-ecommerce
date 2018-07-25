@@ -12,14 +12,13 @@
 */
 
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
+Route::get('/','PagesController@index')->name('home');
+Route::get('/cart','CartController@getCart')->name('getCart');
+Route::post('/cart','CartController@addToCart')->name('postCart');
 Auth::routes();
-
-//Admin Dashboard
-Route::get('admin/dashboard','AdminController@index');
-
-//Admin Products
-Route::get('admin/products','AdminController@products');
+Route::group(['middleware' => ['auth','admin']], function () {
+    //Admin Dashboard
+    Route::get('admin/dashboard','AdminController@index');
+    //Admin Products
+    Route::get('admin/products','AdminController@products');
+});
