@@ -125,7 +125,12 @@ return [
         [
             'text' => 'Products',
             'url'  => 'admin/products',
-            'icon' => 'user',
+            'icon' => 'cart-plus',
+        ],
+        [
+            'text' => 'Employees',
+            'url'  => 'admin/employees',
+            'icon' => 'users',
         ],
         [
             'text' => 'Change Password',

@@ -21,18 +21,14 @@ class Cart
             if($this->items){
                 if(array_key_exists($id, $this->items)){
                     $storedItem = $this->items[$id];
-                    $holder = $storedItem['price'];
                 }
             }
             if(!$qty == null){
                 $storedItem['qty'] += $qty;
                 $this->totalQty += $qty;
                 $storedItem['price'] = $item->price * $storedItem['qty'];
-                if(isset($holder)){
-                    $this->totalPrice += $holder;
-                }else{
-                    $this->totalPrice += $storedItem['price'];
-                }          
+                $price = $item->price * $qty;
+                $this->totalPrice += $price;
             }else{
                 $storedItem['qty']++;
                 $this->totalQty++;
