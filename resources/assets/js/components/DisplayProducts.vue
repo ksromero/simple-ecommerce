@@ -10,32 +10,35 @@
         </div>
 
         <div class="well well-lg">
-          <div class="row">
-            <div class="col-sm-6 col-md-4" v-for="product in products" :key="product.id">
-              <div class="thumbnail">
-                <img class="img-circle" :src="'http://localhost/eapp/public/cover_images/' + product.cover_image" alt="...">
-                  <div class="caption">
-                    <h3>{{ product.name }}</h3>
-                    <hr>
-                    <p><small>Price &#8369;{{product.price}}</small></p>
-                    <form method="POST" :action="cart" class="form-inline pull-right">
-                        <input type="hidden" name="_token" :value="csrf">
-                        <input type="hidden" name="id" :value="product.id">
-                        <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span>Add to Cart</button>
-                    </form>
-                        <button type="button" class="btn btn-default" @click="openModal(product.id)"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> Quick View</button>
-                  </div>
-              </div>
+            <div v-if="Object.keys(noResult).length > 0">
+                <span class="alert-danger">No Results Found</span>
             </div>
-          </div>
+            <div class="row">
+                <div class="col-sm-6 col-md-4" v-for="product in products" :key="product.id">
+                <div class="thumbnail">
+                    <img class="thumbnail" :src="'http://localhost/eapp/public/cover_images/' + product.cover_image" width="250" height="250" style="margin-top:20px;" alt="...">
+                    <div class="caption">
+                        <h3>{{ product.name }}</h3>
+                        <hr>
+                        <p><small>Price &#8369;{{product.price}}</small></p>
+                        <form method="POST" :action="cart" class="form-inline pull-right">
+                            <input type="hidden" name="_token" :value="csrf">
+                            <input type="hidden" name="id" :value="product.id">
+                            <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span>Add to Cart</button>
+                        </form>
+                            <button type="button" class="btn btn-default" @click="openModal(product.id)"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> Quick View</button>
+                    </div>
+                </div>
+                </div>
+            </div>
 
-        <small class="pull-right">{{pagination.current_page}} of {{pagination.last_page}}</small>
-        <nav aria-label="...">
-            <ul class="pager">
-                <li :class="[{disabled: !pagination.prev_page_url}]" ><a href="#" @click="!!pagination.prev_page_url && fetchProducts(pagination.prev_page_url)">Previous</a></li>
-                <li :class="[{disabled: !pagination.next_page_url}]" ><a href="#" @click="!!pagination.next_page_url && fetchProducts(pagination.next_page_url)">Next</a></li>
-            </ul>
-        </nav> 
+            <small class="pull-right">{{pagination.current_page}} of {{pagination.last_page}}</small>
+            <nav aria-label="...">
+                <ul class="pager">
+                    <li :class="[{disabled: !pagination.prev_page_url}]" ><a href="#" @click="!!pagination.prev_page_url && fetchProducts(pagination.prev_page_url)">Previous</a></li>
+                    <li :class="[{disabled: !pagination.next_page_url}]" ><a href="#" @click="!!pagination.next_page_url && fetchProducts(pagination.next_page_url)">Next</a></li>
+                </ul>
+            </nav> 
       </div><!-- end of well -->
 
        <modal v-model="productModal" size="md" :header="false" :dismiss-btn="false">
@@ -122,8 +125,7 @@
               }
               vm.products = response.data.data;
               vm.makePagination(response.data.meta, response.data.links);
-          }catch(err)
-          {
+          }catch(err){
               console.log(err)
           }
         },

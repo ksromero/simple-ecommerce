@@ -25,9 +25,8 @@ class ProductsController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'name' => 'required',
-            'description' => 'required',
-            'price' => 'required',
+            'name' => 'required|max:255',
+            'price' => 'required|numeric',
         ]);
         
         $exploded = explode(',', $request->cover_image);
@@ -52,6 +51,11 @@ class ProductsController extends Controller
     }
     public function update($id, Request $request)
     {
+        $this->validate($request, [
+            'name' => 'required|max:255',
+            'description' => 'required',
+            'price' => 'required|numeric',
+        ]);
        $product = Product::findOrFail($id);
        $exploded = explode(',', $request->cover_image);
         $decoded = base64_decode($exploded[1]);

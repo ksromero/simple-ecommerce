@@ -130,7 +130,8 @@ return [
         [
             'text' => 'Employees',
             'url'  => 'admin/employees',
-            'icon' => 'users',
+            'icon' => 'users', 
+            'can' => 'isAdmin',
         ],
         [
             'text' => 'Change Password',

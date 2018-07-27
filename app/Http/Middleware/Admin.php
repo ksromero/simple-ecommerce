@@ -16,11 +16,13 @@ class Admin
      */
     public function handle($request, Closure $next)
     {
-        if ( Auth::check() && Auth::user()->isAdmin() )
-        {
-            return $next($request);
+        $guard = false;
+        if(Auth::user()->userType() == 'admin' || Auth::user()->userType() == 'employee'){
+            $guard = true;
         }
-
+        if ( Auth::check() && $guard ){ //add $guard to set to true
+            return $next($request);
+        }   
         return redirect('/');
     }
 }

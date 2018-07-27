@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Gate;
 
 class AdminController extends Controller
 {
@@ -22,6 +23,9 @@ class AdminController extends Controller
     }
     public function employees()
     {
+        if(!Gate::allows('isAdmin')){
+            abort(404,"Sorry, you can't perform this action");
+        }
         return view('admin.employees');
     }
 }

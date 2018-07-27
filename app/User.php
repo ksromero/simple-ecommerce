@@ -8,9 +8,6 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 class User extends Authenticatable
 {
     use Notifiable;
-    protected $casts = [
-        'is_admin' => 'boolean',
-    ];
     /**
      * The attributes that are mass assignable.
      *
@@ -28,8 +25,10 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
-    public function isAdmin()
-    {
-        return $this->is_admin; // this looks for an admin column in your users table
+    public function userType(){
+        return $this->user_type; // this looks for an admin column in your users table
+    }
+    public function scopeEmployee($query){
+        return $query->where('user_type', 'employee');
     }
 }

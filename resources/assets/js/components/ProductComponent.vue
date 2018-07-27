@@ -7,22 +7,24 @@
                 <div class="form-group">
                     <label>Product Name</label>
                     <input type="text" v-model="product.name" class="form-control" placeholder="Product Name">
+                    <span class="alert-danger" v-show="errors.has('name')" v-text="errors.get('name')"></span>
                 </div>
                 
                 <div class="form-group">
-                    <label>Product Description</label>
+                    <label>Product Description<small>(optional)</small></label>
                     <textarea class="form-control" v-model="product.description" rows="3"></textarea>
                 </div>
                     
                 <div class="form-group">
                     <label>Product Price</label>
                     <input type="text" class="form-control" v-model="product.price" placeholder="Product Price">
+                    <span class="alert-danger" v-show="errors.has('price')" v-text="errors.get('price')"></span>
                 </div>
                 <hr>
 
                 <div class="form-group">
                     <label for="exampleInputFile">Upload Image of Product</label>
-                    <input type="file" v-on:change="onFileChange" id="exampleInputFile">
+                    <input type="file" ref="fileupload" v-on:change="onFileChange" id="exampleInputFile">
                 </div>
 
                 <div slot="footer">
@@ -78,6 +80,40 @@
 </template>
 
 <script>
+class Errors 
+{
+    constructor(){
+        this.errors = { };
+    }
+
+    //retrieve error message
+    get(field){   
+        if(this.errors[field])
+        {
+            return this.errors[field][0];
+        }
+    }
+    //check if field has error
+    has(field) {
+        return this.errors.hasOwnProperty(field);
+    }
+    //record the errors
+    record(errors){
+        this.errors = errors.errors;
+    }
+    //check if there is error
+    any() {
+        return Object.keys(this.errors).length > 0;
+    }
+    //clear error
+    clear(field) {
+        if (field) {
+            delete this.errors[field];
+            return;
+        }
+        this.errors = {};
+    }
+}
     export default {
         data () {
             return {
@@ -93,6 +129,7 @@
                 edit: false,
                 search:'',
                 pagination: {},
+                errors: new Errors()
             }
         },
 
@@ -111,7 +148,15 @@
             },
 
             setFalse:function(){
+                let input = this.$refs.fileupload;
                 this.productModal = false;
+                input.type = 'text';
+                input.type = 'file';
+                this.edit = false;
+                 for (var key in this.product ) {
+                    this.product[key] = null;
+                }
+                this.errors.clear();
             },
             clearSearch: function(){
                 this.search = '',
@@ -131,14 +176,12 @@
                     }
                     vm.products = response.data.data;
                     vm.makePagination(response.data.meta, response.data.links);
-                }catch(err)
-                {
+                }catch(err){
                     console.log(err)
                 }
             },
 
-            makePagination: function(meta, links)
-            {
+            makePagination: function(meta, links){
                 let pagination = {
                     current_page: meta.current_page,
                     last_page: meta.last_page,
@@ -159,10 +202,12 @@
                         vm.product.price='';
                         vm.product.cover_image='';
                         vm.productModal = false;
+                        vm.errors.clear();
+                        vm.setFalse();
                         vm.fetchProducts();
                     })
                     .catch( error => {
-                        console.log(error);
+                        vm.errors.record(error.response.data);
                     });
                 }else{
                     let vm = this;
@@ -173,10 +218,11 @@
                         vm.product.description='';
                         vm.product.price='';
                         vm.productModal = false;
+                        vm.errors.clear();
                         vm.fetchProducts();
                     })
                     .catch( error => {
-                        console.log(error);
+                        vm.errors.record(error.response.data);
                     });
                 }
             },
