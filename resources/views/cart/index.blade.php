@@ -40,7 +40,7 @@
                                     </button>
                                     <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
                                         <li> <a href="{{ route('removeByOne', ['id' => $product['item']['id']])}}">Reduce By One</a></li>
-                                        <li> <a href="{{ route('removeAll', ['id' => $product['item']['id']])}}">Reduce All</a></li>
+                                        <li> <a href="{{ route('removeAll', ['id' => $product['item']['id']])}}">Remove Product</a></li>
                                     </ul>
                                 </div>
                             </td>
