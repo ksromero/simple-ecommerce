@@ -30,7 +30,7 @@
                                             <input type="text" class="form-control" name="qty" value="{{ $product['qty'] }}">
                                         </div>
                                     </div>
-                                </form>
+                                </form>aasdasd
                             </td>
                             <td> 
                                 <div class="dropdown">
