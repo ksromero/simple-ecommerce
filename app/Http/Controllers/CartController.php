@@ -9,6 +9,15 @@ use App\Http\Requests;
 
 class CartController extends Controller
 {
+    public function index(){
+        if(!session()->has('cart')){
+            return view('cart.index', ['products' => null]);
+        }
+        $oldCart = session()->get('cart');
+        $cart = new Cart($oldCart);
+        //dd($cart->items);
+        return view('cart.index',['products' => $cart->items, 'totalPrice' => $cart->totalPrice]);
+    }
     public function addToCart(Request $request){
         $product = Product::findOrFail(request()->input('id'));
         $oldCart = session()->has('cart') ? session()->get('cart') : null;
@@ -19,19 +28,10 @@ class CartController extends Controller
         flash('Item Added to Cart')->success();
         return redirect()->route('getCart');
     }
-    public function getCart(){
-        if(!session()->has('cart')){
-            return view('cart.index', ['products' => null]);
-        }
-        $oldCart = session()->get('cart');
-        $cart = new Cart($oldCart);
-        //dd($cart->items);
-        return view('cart.index',['products' => $cart->items, 'totalPrice' => $cart->totalPrice]);
-    }
+
     public function reduceByOne($id){
         $oldCart = session()->has('cart') ? session()->get('cart') : null;
         $cart = new Cart($oldCart);
-        //dd($cart->items);
         $cart->reduceByOne($id);
         if(count($cart->items) > 0){
             session()->put('cart', $cart);
@@ -54,6 +54,7 @@ class CartController extends Controller
         flash('Item Removed Successfully')->success();
         return redirect()->route('getCart');
     }
+
     public function updateProduct($id, Request $request){
         $oldCart = session()->has('cart') ? session()->get('cart') : null;
         $cart = new Cart($oldCart);

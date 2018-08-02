@@ -47,6 +47,11 @@ class Cart
             unset($this->items[$id]);
         }
     }
+    public function removeAllProduct(){
+        if($this->items){
+            unset($this->items);
+        }
+    }
     public function reduceAll($id){
         $this->totalQty -= $this->items[$id]['qty'];
         $this->totalPrice -= $this->items[$id]['price'];
@@ -56,6 +61,7 @@ class Cart
             unset($this->items[$id]);
         }
     }
+
     public function updateCart($id, $qty){
         $totalQty = 0;
         $totalPrice = 0;

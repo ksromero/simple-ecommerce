@@ -4,6 +4,8 @@
     @include('flash::message')
     <h3>Shopping Cart <i class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></i></h3>
     <hr>
+
+
     @if(session()->has('cart'))
     <table class="table table-striped">
         <thead>
@@ -66,9 +68,24 @@
         </tfoot>
     </table>
     <hr>
-        <a href="{{route('checkoutView')}}" class="btn btn-primary pull-right" style="margin-bottom:20px;">Checkout</a>
+    <h3>Payment <i class="fa fa-credit-card"></i> </h3>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th class="col-md-2 col-lg-2">Name</th>
+                    <th class="col-md-2 col-lg-2">Description</th>
+                    <th class="col-md-2 col-lg-2">Choose Payment</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Paypal</td>
+                    <td>Paypal | Secured and Easy to Pay Online</td>
+                    <td><a href="{{route('checkout')}}" class="btn btn-success" style="margin-bottom:20px;">Pay with Paypal <i class="fa fa-paypal"></i></a></td>
+                </tr>
+            </tbody>
+        </table>
     @else
         <div class="alert alert-warning" role="alert">No products in cart yet!</div>
     @endif
-        <a href="{{route('home')}}" class="btn btn-default pull-right" style="margin-bottom:20px;">Continue Shopping</a>
 @endsection
