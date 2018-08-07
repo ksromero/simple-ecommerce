@@ -1,7 +1,7 @@
 <template>
     <section>
       <div class="page-header">
-            <h1><small>Products</small></h1>
+            <h1 id="product"><small>Products</small></h1>
         </div>
         <!-- Search Bar -->
         <div class="form-inline form-group">
@@ -35,8 +35,8 @@
             <small class="pull-right">{{pagination.current_page}} of {{pagination.last_page}}</small>
             <nav aria-label="...">
                 <ul class="pager">
-                    <li :class="[{disabled: !pagination.prev_page_url}]" ><a href="#" @click="!!pagination.prev_page_url && fetchProducts(pagination.prev_page_url)">Previous</a></li>
-                    <li :class="[{disabled: !pagination.next_page_url}]" ><a href="#" @click="!!pagination.next_page_url && fetchProducts(pagination.next_page_url)">Next</a></li>
+                    <li :class="[{disabled: !pagination.prev_page_url}]" ><a href="#product" @click="!!pagination.prev_page_url && fetchProducts(pagination.prev_page_url)">Previous</a></li>
+                    <li :class="[{disabled: !pagination.next_page_url}]" ><a href="#product" @click="!!pagination.next_page_url && fetchProducts(pagination.next_page_url)">Next</a></li>
                 </ul>
             </nav> 
       </div><!-- end of well -->

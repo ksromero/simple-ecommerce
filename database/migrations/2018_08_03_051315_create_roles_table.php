@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddCoverImageToProducts extends Migration
+class CreateRolesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,11 @@ class AddCoverImageToProducts extends Migration
      */
     public function up()
     {
-        Schema::table('products', function($table){
-            $table->string('cover_image')->after('price');
+        Schema::create('roles', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('role_name');
+            $table->timestamps();
+            $table->softDeletes();
         });
     }
 
@@ -25,8 +28,6 @@ class AddCoverImageToProducts extends Migration
      */
     public function down()
     {
-        Schema::table('products', function($table){
-            $table->dropColumn('cover_image');
-        });
+        Schema::dropIfExists('roles');
     }
 }

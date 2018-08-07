@@ -134,8 +134,8 @@ return [
             'can' => 'isAdmin',
         ],
         [
-            'text' => 'Change Password',
-            'url'  => 'admin/settings',
+            'text' => 'Orders',
+            'url'  => 'admin/orders',
             'icon' => 'lock',
         ],
         [

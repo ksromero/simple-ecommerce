@@ -4,17 +4,18 @@ namespace App;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class User extends Authenticatable
 {
-    use Notifiable;
+    use Notifiable, SoftDeletes;
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'role_id', 'password',
     ];
 
     /**
@@ -25,10 +26,10 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
-    public function userType(){
-        return $this->user_type; // this looks for an admin column in your users table
+    public function role(){
+        return $this->belongsTo(Role::class);
     }
     public function scopeEmployee($query){
-        return $query->where('user_type', 'employee');
+        return $query->where('role_name', 'employee');
     }
 }

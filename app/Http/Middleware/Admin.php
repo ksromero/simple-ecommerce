@@ -17,10 +17,10 @@ class Admin
     public function handle($request, Closure $next)
     {
         $guard = false;
-        if(Auth::user()->userType() == 'admin' || Auth::user()->userType() == 'employee'){
+        if(Auth::user()->role->role_name == 'admin' || Auth::user()->role->role_name == 'employee'){
             $guard = true;
         }
-        if ( Auth::check() && $guard ){ //add $guard to set to true
+        if (Auth::check() && $guard){ //add $guard to set to true
             return $next($request);
         }   
         return redirect('/');

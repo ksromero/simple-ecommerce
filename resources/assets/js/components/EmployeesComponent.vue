@@ -21,7 +21,7 @@
                     <input type="text" class="form-control" v-model="employee.password" placeholder="xxxxxx">
                     <span class="alert-danger" v-show="errors.has('password')" v-text="errors.get('password')"></span>
                 </div>
-                <input type="hidden" v-model="employee.user_type">
+                
                 <hr>
                 <div slot="footer">
                     <button type="button" class="btn btn-default" @click="setFalse()">Close</button>
@@ -48,9 +48,9 @@
 
                 <div class="panel-body">
                     Email: {{ employee.email }}<br>
-                    Type: {{ employee.user_type }}<br>
+                    Type: {{ employee.role.role_name }}<br>
                 </div>
-                <div class="panel-footer"><small>Created At {{ employee.created_at }}</small></div>
+                <div class="panel-footer"><small>Created At {{ employee.created_at.formatted }}</small></div>
             </div>
         </div>
 
@@ -106,7 +106,7 @@ class Errors {
                     name: '',
                     email: '',
                     password: '',
-                    user_type: 'employee'
+                    role: {}
                 },
                 noResult: {},
                 pagination: {},
@@ -131,6 +131,7 @@ class Errors {
                 this.edit = false;
                 for (var key in this.employee ) {
                     this.employee[key] = null;
+
                 }
                 this.errors.clear();
             },
@@ -200,15 +201,17 @@ class Errors {
                 });
             },
             deleteEmployee: function(id){
-                let vm = this;
-                axios.delete('api/employees/' + id)
-                .then( response => {
-                   alert("Employee Deleted");
-                    vm.fetchEmployees();
-                })
-                .catch( error => {
-                    console.log(error);
-                });
+                if(confirm('Are you sure?')){
+                    let vm = this;
+                    axios.delete('api/employees/' + id)
+                    .then( response => {
+                    alert("Employee Deleted");
+                        vm.fetchEmployees();
+                    })
+                    .catch( error => {
+                        console.log(error);
+                    });
+                }
             },
             makePagination: function(meta, links)
             {

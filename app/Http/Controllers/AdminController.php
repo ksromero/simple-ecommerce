@@ -12,20 +12,20 @@ class AdminController extends Controller
         $this->middleware('auth');
     }
 
-    public function index()
-    {
+    public function index(){
         return view('admin.dashboard');
     }
 
-    public function products()
-    {
+    public function products(){
         return view('admin.products');
     }
-    public function employees()
-    {
+    public function employees(){
         if(!Gate::allows('isAdmin')){
             abort(404,"Sorry, you can't perform this action");
         }
         return view('admin.employees');
+    }
+    public function orders(){
+        return view('admin.orders');
     }
 }

@@ -4,7 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests;
+use App\Order;
+use App\OrderProduct;
 use App\Cart;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Srmklive\PayPal\Services\ExpressCheckout;
 
 class CheckoutController extends Controller
@@ -33,6 +37,15 @@ class CheckoutController extends Controller
         $response = $this->provider->doExpressCheckoutPayment($data,$token,$payerID);
         $oldCart = session()->has('cart') ? session()->get('cart') : null;
         $cart = new Cart($oldCart);
+        $order = Order::create([ 
+            'user_id' => Auth::id(), 
+            'address' => 'Test Address',
+        ]); 
+        
+        foreach($cart->items as $row){ 
+            $items[$row['item']->id] = ['quantity' => $row['qty']]; 
+        }
+        $order->products()->attach($items);
         session()->forget('cart');
         unset($cart);
         flash('Item Ordered Successfully')->success();
