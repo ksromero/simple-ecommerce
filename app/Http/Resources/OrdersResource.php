@@ -20,15 +20,13 @@ class OrdersResource extends JsonResource
         $quantity = 0;
 
         foreach($this->products as $product){
-        $sub_total += ($product->pivot->quantity * $product->price);
-        $quantity += $product->pivot->quantity;
+            $sub_total += ($product->pivot->quantity * $product->price);
+            $quantity += $product->pivot->quantity;
         }
-
         $discount = round((10 / 100) * $sub_total, 2);
         $total = $sub_total - $discount;
         return [
             'id' => $this->id,
-            'quantity' => $this->quantity,
             'address' => $this->address,
             'sub_total' => $sub_total,
             'discount' => $discount,

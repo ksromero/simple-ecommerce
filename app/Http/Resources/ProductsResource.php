@@ -3,7 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
-
+use Carbon\Carbon;
 class ProductsResource extends JsonResource
 {
     /**
@@ -14,6 +14,14 @@ class ProductsResource extends JsonResource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        return [
+            'id' => $this->id,
+            'name' => $this->name,
+            'description' => $this->description,
+            'price' => $this->price,
+            'cover_image' => $this->cover_image,
+            'created_at' => Carbon::parse($this->created_at)->format('Y-m-d')
+        ];
+
     }
 }
