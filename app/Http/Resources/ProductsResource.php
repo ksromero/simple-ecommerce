@@ -21,7 +21,8 @@ class ProductsResource extends JsonResource
             'price' => $this->price, 
             'description' => $this->description,
             'cover_image' => $this->cover_image,
-            'created_at' => Carbon::parse($this->created_at)->format('Y-m-d h:m:s')
+            'created_at' => Carbon::parse($this->created_at)->format('Y-m-d h:m:s'),
+            'pivot' => $this->pivot
         ]; 
     }
 }

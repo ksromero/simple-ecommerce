@@ -17,12 +17,11 @@ class OrdersController extends Controller
                 $builder = $query->where('name', 'like', $keyword);
             }
         });
-        $products->with('products');
         $products->count() ? $orders = $products : $errorFound = true;
         return $errorFound === false ? OrdersResource::collection($orders->latest()->paginate(5)) : $error;
     }
     public function show($id){
-        $user = Order::findOrFail($id);
-        return new OrdersResource($user);
+        $order = Order::findOrFail($id);
+        return new OrdersResource($order);
     }
 }
