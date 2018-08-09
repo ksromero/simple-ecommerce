@@ -29,7 +29,4 @@ class User extends Authenticatable
     public function role(){
         return $this->belongsTo(Role::class);
     }
-    public function scopeEmployee($query){
-        return $query->where('role_name', 'employee');
-    }
 }
