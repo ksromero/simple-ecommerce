@@ -16,7 +16,7 @@
             <div class="row">
                 <div class="col-sm-6 col-md-4" v-for="product in products" :key="product.id">
                 <div class="thumbnail">
-                    <img class="thumbnail" :src="'http://localhost/eapp/public/cover_images/' + product.cover_image" width="250" height="250" style="margin-top:20px;" alt="...">
+                    <img class="thumbnail" :src="'http://localhost/eapp/public/cover_images/' + product.cover_image" style="margin-top:20px;" alt="...">
                     <div class="caption">
                         <h3>{{ product.name }}</h3>
                         <hr>
@@ -141,3 +141,10 @@
      }
    }
 </script>
+
+<style scoped>
+    .thumbnail > img {
+        height: 200px;
+        width: 250px;
+    }
+</style>

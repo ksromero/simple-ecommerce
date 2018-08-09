@@ -23,7 +23,11 @@ Route::resource('employees','EmployeesController')->except([
     'create', 'edit'
 ]);
 
+//order
 Route::get('orders','OrdersController@index');
 Route::get('order/{id}','OrdersController@show');
+
+//OrderProduct Collections
+Route::get('order-products','CollectionsController@index');
 
 

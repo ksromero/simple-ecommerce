@@ -41,7 +41,6 @@ class CheckoutController extends Controller
             'user_id' => Auth::id(), 
             'address' => 'Test Address',
         ]); 
-        
         foreach($cart->items as $row){ 
             $items[$row['item']->id] = ['quantity' => $row['qty']]; 
         }

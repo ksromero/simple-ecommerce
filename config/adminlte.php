@@ -139,6 +139,12 @@ return [
             'icon' => 'lock',
         ],
         [
+            'text' => 'Collections',
+            'url'  => 'admin/collections',
+            'icon' => 'info-circle',
+            'can' => 'isAdmin',
+        ],
+        [
             'text'    => 'Multilevel',
             'icon'    => 'share',
             'submenu' => [

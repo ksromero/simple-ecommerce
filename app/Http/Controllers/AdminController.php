@@ -28,4 +28,10 @@ class AdminController extends Controller
     public function orders(){
         return view('admin.orders');
     }
+    public function collections(){
+        if(!Gate::allows('isAdmin')){
+            abort(404,"Sorry, you can't perform this action");
+        }
+        return view('admin.collections');
+    }
 }

@@ -13,7 +13,7 @@ class ProductsController extends Controller
     {
         $errorFound = false;
         $error = ['error' => 'No Results Found'];
-        $products = Product::orderBy('created_at', 'desc');
+        $products = Product::with('orders')->latest();
         if (request()->has('q')) {
             $keyword = '%'.request()->get('q').'%';
             $builder = $products;
@@ -77,7 +77,7 @@ class ProductsController extends Controller
     }
     public function show($id)
     {
-        $product = Product::findOrFail($id);
+        $product = Product::with('orders')->findOrFail($id);
         return new ProductsResource($product);
     }
     public function destroy($id)

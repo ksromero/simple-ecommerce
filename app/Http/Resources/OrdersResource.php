@@ -4,7 +4,6 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 use Carbon\Carbon;
-use App\Http\Resources\ProductsResource;
 
 class OrdersResource extends JsonResource
 {
@@ -17,14 +16,12 @@ class OrdersResource extends JsonResource
     public function toArray($request)
     {
         $sub_total= 0;
-        $quantity = 0;
-
         foreach($this->products as $product){
             $sub_total += ($product->pivot->quantity * $product->price);
-            $quantity += $product->pivot->quantity;
         }
         $discount = round((10 / 100) * $sub_total, 2);
-        $total = $sub_total - $discount;
+        $total = round(($sub_total - $discount), 2);
+        $sub_total = round($sub_total,2);
         return [
             'id' => $this->id,
             'address' => $this->address,
@@ -33,7 +30,7 @@ class OrdersResource extends JsonResource
             'total_price' => $total,
             'created_at' => Carbon::parse($this->created_at)->format('F d, Y h:i:s A'),
             'customer' => $this->user,
-            'items' => ProductsResource::collection($this->products),
+            'items' => ProductsResource::collection($this->products)
         ];
     }
 }

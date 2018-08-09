@@ -2,11 +2,11 @@
     <section>
         <!-- Search Bar -->
         <div class="form-inline form-group">
-            <input type="text" class="form-control" v-on:input="fetchOrders()" v-model="search" placeholder="Search Product Name">
+            <input type="text" class="form-control" v-on:input="fetchOrders()" v-model="search" placeholder="Search Customer Name">
             <span v-show="search" class="glyphicon glyphicon-remove" aria-hidden="true" @click="clearSearch()"></span>
         </div>
         <!-- Modal -->
-        <modal v-model="orderModal" :header="false" size="lg" :dismiss-btn="false">
+        <modal v-model="orderModal" :header="false" size="lg" :dismiss-btn="false" :footer="false">
             <div class="well well-sm" id="no-padding-top">
                 <p class="text-primary h3">{{order.customer && order.customer.name}}</p>
                 <span>{{order.customer && order.customer.email}}</span>
@@ -60,29 +60,48 @@
                         </tr>
                     </thead>
                     <tbody>
-                            <td>{{order.product && order.product.name}}</td>
-                            <td>{{order.product && order.product.description}}</td>
-                            <td>{{order.quantity}}</td>
-                            <td>{{order.sub_total}}</td>
-                            <td><span class="fa fa-check"></span></td>
+                        <tr v-for="items in order.items" :key="items.id">
+                            <td>{{items.name}}</td>
+                            <td>{{items.description}}</td>
+                            <td>{{items.pivot.quantity}}</td>
+                            <td>{{items.price}}</td>
+                            <td><span class="fa fa-check bg-success"></span></td>
+                        </tr>                    
                     </tbody>
                 </table>
             </div>
         </modal>
 
         <div class="well well-lg">
-            <div class="row">
-                <div class="panel panel-info" v-for="order in orders" :key="order.id" style="margin-top:15px;"> 
-                    <div class="panel-heading">
-                        <a href="#" @click="fetchOrder(order.id)" class="panel-title"><u>{{ order.created_at }}</u></a>
-                    </div>
-
-                    <div class="panel-body">
-                        Customer : {{order.customer.name}} <br>
-                        Total: <span class="alert-success">{{order.total_price}}</span>
-                    </div>
-                </div>
+            <div v-if="Object.keys(noResult).length > 0">
+                <span class="alert-danger">No Results Found</span>
             </div>
+             <table class="table table-striped table-responsive">
+                    <thead>
+                        <tr>
+                            <th class="col-md-2">Date</th>
+                            <th class="col-md-2">Customer</th>
+                            <th class="col-md-2">Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <div v-if="Object.keys(noResult).length > 0">
+                            <span class="alert-danger col-md-12">No Results Found</span>
+                        </div>
+                        <tr v-for="order in orders" :key="order.id">
+                            <td><a href="#" @click="fetchOrder(order.id)" class="panel-title"><u>{{ order.created_at }}</u></a></td>
+                            <td>{{order.customer.name}}</td>
+                            <td>{{order.total_price}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            <small class="pull-right">{{pagination.current_page}} of {{pagination.last_page}}</small>
+            <nav aria-label="...">
+                <ul class="pager">
+                    <li :class="[{disabled: !pagination.prev_page_url}]" ><a href="#" @click="!!pagination.prev_page_url && fetchOrders(pagination.prev_page_url)">Previous</a></li>
+                    <li :class="[{disabled: !pagination.next_page_url}]" ><a href="#" @click="!!pagination.next_page_url && fetchOrders(pagination.next_page_url)">Next</a></li>
+                </ul>
+            </nav> 
         </div>
 
         
@@ -108,6 +127,10 @@
      },
 
      methods: {
+        clearSearch: function(){
+            this.search = '',
+            this.fetchOrders();
+        },
        fetchOrders: async function(page_url){
           let vm = this;
           page_url = page_url || 'api/orders?q=' + vm.search

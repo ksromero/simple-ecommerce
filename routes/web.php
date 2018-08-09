@@ -25,4 +25,6 @@ Route::group(['middleware' => ['auth','admin']], function () {
     Route::get('admin/employees','AdminController@employees');
     //Admin Orders
     Route::get('admin/orders','AdminController@orders');
+    //Admin Collections
+    Route::get('admin/collections','AdminController@collections');
 });
