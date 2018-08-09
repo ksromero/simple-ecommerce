@@ -11,7 +11,7 @@ class OrderProductResourceCollection extends ResourceCollection
         $total = 0;
         return [
             'data' => $this->collection,
-            'total' => $this->collection->sum('income')
+            'total' => round(($this->collection->sum('income')),2)
         ];
     }
 }

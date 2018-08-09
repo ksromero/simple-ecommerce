@@ -35137,6 +35137,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 //
 //
 //
+//
 
 var Errors = function () {
     function Errors() {
@@ -36300,6 +36301,21 @@ var render = function() {
                   ref: "fileupload",
                   attrs: { type: "file", id: "exampleInputFile" },
                   on: { change: _vm.onFileChange }
+                }),
+                _vm._v(" "),
+                _c("span", {
+                  directives: [
+                    {
+                      name: "show",
+                      rawName: "v-show",
+                      value: _vm.errors.has("cover_image"),
+                      expression: "errors.has('cover_image')"
+                    }
+                  ],
+                  staticClass: "alert-danger",
+                  domProps: {
+                    textContent: _vm._s(_vm.errors.get("cover_image"))
+                  }
                 })
               ]),
               _vm._v(" "),

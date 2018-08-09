@@ -15,19 +15,12 @@ class OrdersResource extends JsonResource
      */
     public function toArray($request)
     {
-        $sub_total= 0;
-        foreach($this->products as $product){
-            $sub_total += ($product->pivot->quantity * $product->price);
-        }
-        $discount = round((10 / 100) * $sub_total, 2);
-        $total = round(($sub_total - $discount), 2);
-        $sub_total = round($sub_total,2);
         return [
             'id' => $this->id,
             'address' => $this->address,
-            'sub_total' => $sub_total,
-            'discount' => $discount,
-            'total_price' => $total,
+            'sub_total' => $this->subtotal,
+            'discount' => $this->discount,
+            'total_price' => $this->total,
             'created_at' => Carbon::parse($this->created_at)->format('F d, Y h:i:s A'),
             'customer' => $this->user,
             'items' => ProductsResource::collection($this->products)

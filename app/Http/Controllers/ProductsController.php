@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Product;
 use App\Http\Requests;
+use Image;
 use App\Http\Resources\ProductsResource;
 
 class ProductsController extends Controller
@@ -27,25 +28,17 @@ class ProductsController extends Controller
         $this->validate($request, [
             'name' => 'required|max:255',
             'price' => 'required|numeric',
+            'cover_image' => 'image|required|image64:jpeg,jpg,png|max:2048'
         ]);
-        
-        $exploded = explode(',', $request->cover_image);
-        $decoded = base64_decode($exploded[1]);
-        if(str_contains($exploded[0],'jpeg'))
-            $extension = 'jpg';
-        else
-            $extension = 'png';
-        $fileName = str_random().'.'.$extension;
-        $path = public_path().'/cover_images/'.$fileName;
-        file_put_contents($path, $decoded);
-
+        $image = $request->input('cover_image');
+        $name = time().'.' . explode('/', explode(':', substr($image, 0, strpos($image, ';')))[1])[1];
+        Image::make($request->get('cover_image'))->save(public_path('cover_images/').$name);
         $product = new Product;
         $product->name = $request->input('name');
         $product->description = $request->input('description');
         $product->price = $request->input('price');
-        $product->cover_image = $fileName;
-        if($product->save()) 
-        {
+        $product->cover_image = $name;
+        if($product->save()) {
             return new ProductsResource($product);
         }
     }
@@ -53,23 +46,17 @@ class ProductsController extends Controller
     {
         $this->validate($request, [
             'name' => 'required|max:255',
-            'description' => 'required',
             'price' => 'required|numeric',
+            'cover_image' => 'image|required|image64:jpeg,jpg,png|max:2048'
         ]);
        $product = Product::findOrFail($id);
-       $exploded = explode(',', $request->cover_image);
-        $decoded = base64_decode($exploded[1]);
-        if(str_contains($exploded[0],'jpeg'))
-            $extension = 'jpg';
-        else
-            $extension = 'png';
-        $fileName = str_random().'.'.$extension;
-        $path = public_path().'/cover_images/'.$fileName;
-        file_put_contents($path, $decoded);
+       $image = $request->input('cover_image');
+       $name = time().'.' . explode('/', explode(':', substr($image, 0, strpos($image, ';')))[1])[1];
+       Image::make($request->get('cover_image'))->save(public_path('cover_images/').$name);
        $product->name = $request->input('name');
        $product->description = $request->input('description');
        $product->price = $request->input('price');
-       $product->cover_image = $fileName;
+       $product->cover_image = $name;
        if($product->save()) 
        {
            return new ProductsResource($product);

@@ -25,6 +25,7 @@
                 <div class="form-group">
                     <label for="exampleInputFile">Upload Image of Product</label>
                     <input type="file" ref="fileupload" v-on:change="onFileChange" id="exampleInputFile">
+                    <span class="alert-danger" v-show="errors.has('cover_image')" v-text="errors.get('cover_image')"></span>
                 </div>
 
                 <div slot="footer">

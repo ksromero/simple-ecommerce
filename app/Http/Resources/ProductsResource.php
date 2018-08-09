@@ -20,7 +20,8 @@ class ProductsResource extends JsonResource
             'name' => $this->name, 
             'price' => $this->price, 
             'description' => $this->description,
-            'cover_image' => $this->cover_image
+            'cover_image' => $this->cover_image,
+            'created_at' => Carbon::parse($this->created_at)->format('Y-m-d h:m:s')
         ]; 
     }
 }
