@@ -26,4 +26,5 @@ class OrdersResource extends JsonResource
             'items' => ProductsResource::collection($this->products)
         ];
     }
+
 }

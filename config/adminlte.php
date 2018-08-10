@@ -30,7 +30,7 @@ return [
     |
     */
 
-    'logo' => '<b>Admin</b>LTE',
+    'logo' => '<b>Ecommerce</b> App',
 
     'logo_mini' => '<b>A</b>LT',
 
@@ -45,7 +45,7 @@ return [
     |
     */
 
-    'skin' => 'blue',
+    'skin' => 'green-light',
 
     /*
     |--------------------------------------------------------------------------
@@ -143,6 +143,11 @@ return [
             'url'  => 'admin/collections',
             'icon' => 'info-circle',
             'can' => 'isAdmin',
+        ],
+        [
+            'text' => 'Reports',
+            'url'  => 'admin/reports',
+            'icon' => 'lock',
         ],
         [
             'text'    => 'Multilevel',

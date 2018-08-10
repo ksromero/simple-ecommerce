@@ -34,4 +34,7 @@ class AdminController extends Controller
         }
         return view('admin.collections');
     }
+    public function reports(){
+        return view('admin.reports');
+    }
 }

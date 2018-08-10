@@ -8,10 +8,26 @@ class OrderProductResourceCollection extends ResourceCollection
 {
     public function toArray($request)
     {    
-        $total = 0;
+        //return $this->kenn($request);
         return [
             'data' => $this->collection,
             'total' => round(($this->collection->sum('income')),2)
         ];
     }
+
+    /*
+    function kenn($request){
+        $return = [];
+        foreach($this->collection as $value){
+            $return[] = [
+                "id" => $value["id"],
+                "description" => $value["description"]
+            ];
+        }
+
+        return $return;
+    }
+    */
+
+
 }
