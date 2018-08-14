@@ -86,9 +86,6 @@
         </modal>
 
         <div class="well well-lg">
-            <div v-if="Object.keys(noResult).length > 0">
-                <span class="alert-danger">No Results Found</span>
-            </div>
              <table class="table table-striped table-responsive">
                     <thead>
                         <tr>
@@ -98,9 +95,9 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <div v-if="Object.keys(noResult).length > 0">
-                            <span class="alert-danger col-md-12">No Results Found</span>
-                        </div>
+                        <tr v-if="Object.keys(noResult).length > 0">
+                            <td class="text-center" colspan="4">No Results Found</td>
+                        </tr>
                         <tr v-for="order in orders" :key="order.id">
                             <td><a href="#" @click="fetchOrder(order.id)" class="panel-title"><u>{{ order.created_at }}</u></a></td>
                             <td>{{order.customer.name}}</td>

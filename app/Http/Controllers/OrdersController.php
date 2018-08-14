@@ -26,11 +26,10 @@ class OrdersController extends Controller
             $products = $products->whereBetween('created_at', [$arr['start'],$arr['end']]);
         }
         $products->count() ? $orders = $products : $errorFound = true;
-        return $errorFound === false ? OrdersResource::collection($orders
-                                                                ->latest()
-                                                                ->paginate(10)
-                                                                ->appends(request()->query())) 
-                                                                : $error;
+        return $errorFound === false ? OrdersResource::collection($orders->latest()
+                                                                         ->paginate(10)
+                                                                         ->appends(request()->query())) 
+                                                                         : $error;
     }
     public function show($id){
         $order = Order::findOrFail($id);

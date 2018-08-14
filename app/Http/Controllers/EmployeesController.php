@@ -18,8 +18,7 @@ class EmployeesController extends Controller
         });
         if (request()->has('q')) {
             $keyword = '%'.request()->get('q').'%';
-            $builder = $users;
-            $builder = $builder->where('name', 'like', $keyword);
+            $builder = $users->where('name', 'like', $keyword);
             $builder->count() ? $users = $builder : $errorFound = true;
         }
        return $errorFound === false ? UserResource::collection($users->latest()->paginate(5)) : $error;

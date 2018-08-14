@@ -6,11 +6,21 @@
                 <div class="form-inline form-group">
                     <input type="text" class="form-control" v-on:input="fetchOrderProduct()" v-model="search" placeholder="Search Product Name">
                     <span v-show="search" class="glyphicon glyphicon-remove" aria-hidden="true" @click="clearSearch()"></span>
-                   
+                    <span v-show="dateRangeValue" class="glyphicon glyphicon-remove pull-right" aria-hidden="true" @click="clearSearchDate()"></span>
+                        <el-date-picker class="pull-right"
+                            v-model="dateRangeValue"
+                            type="daterange"
+                            align="right"
+                            unlink-panels
+                            :clearable="false"
+                            range-separator="To"
+                            start-placeholder="Start date"
+                            end-placeholder="End date"
+                            @input="fetchOrderProduct()"
+                            :picker-options="pickerOptions2">
+                        </el-date-picker>
                 </div>
-                
-                   <span class="bg-success"> Total Overall Income </span> <strong>PHP {{ total }}</strong>
-                    <hr>
+                <hr>      
                 <table class="table table-striped table-responsive">
                     <thead>
                         <tr>
@@ -21,25 +31,25 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <div v-if="Object.keys(noResult).length > 0">
-                            <span class="alert-danger col-md-12">No Results Found</span>
-                        </div>
+                        <tr v-if="Object.keys(noResult).length > 0">
+                            <td class="text-center" colspan="4">No Results Found</td>
+                        </tr>
                         <tr v-for="orderProduct in orderProducts" :key="orderProduct.id">
                             <td>{{orderProduct.name}}</td>
                             <td>{{orderProduct.description}}</td>
                             <td>{{orderProduct.quantity}}</td>
-                            <td class="bg-success">PHP {{orderProduct.income}}</td>
+                            <td class="bg-warning">PHP {{orderProduct.income}}</td>
                         </tr>
                     </tbody>
+                     <tfoot>
+                        <tr>
+                          <td class="bg-success"> </td>
+                          <td class="bg-success"> </td>
+                          <td class="bg-success"> </td>
+                          <td class="bg-success"><strong>Total </strong> PHP {{ total }}</td>
+                        </tr>
+                    </tfoot>
                 </table>
-
-            <small class="pull-right">{{pagination.current_page}} of {{pagination.last_page}}</small>
-            <nav aria-label="...">
-                <ul class="pager">
-                    <li :class="[{disabled: !pagination.prev_page_url}]" ><a href="#" @click="!!pagination.prev_page_url && fetchOrderProduct(pagination.prev_page_url)">Previous</a></li>
-                    <li :class="[{disabled: !pagination.next_page_url}]" ><a href="#" @click="!!pagination.next_page_url && fetchOrderProduct(pagination.next_page_url)">Next</a></li>
-                </ul>
-            </nav> 
             </div>
         </div>    
     </section>
@@ -54,6 +64,34 @@
                  total:'',
                  pagination:{},
                  search:'',
+                 pickerOptions2: {
+                  shortcuts: [{
+                    text: 'Last week',
+                    onClick(picker) {
+                      const end = new Date();
+                      const start = new Date();
+                      start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+                      picker.$emit('pick', [start, end]);
+                    }
+                  }, {
+                    text: 'Last month',
+                    onClick(picker) {
+                      const end = new Date();
+                      const start = new Date();
+                      start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+                      picker.$emit('pick', [start, end]);
+                    }
+                  }, {
+                    text: 'Last 3 months',
+                    onClick(picker) {
+                      const end = new Date();
+                      const start = new Date();
+                      start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
+                      picker.$emit('pick', [start, end]);
+                    }
+                  }]
+                },
+                dateRangeValue: ''
             }
         },
 
@@ -66,15 +104,18 @@
                 this.search = '',
                 this.fetchOrderProduct();
             },
-            fetchOrderProduct: async function(page_url){
+            clearSearchDate:function(){
+                this.dateRangeValue = '',
+                this.fetchOrderProduct();
+            },
+            /*
+            fetchOrderProduct: async function(){
                 let vm = this;
-                page_url = page_url || 'api/order-products?q=' + vm.search
+                page_url = page_url || 'api/order-products?q=' + vm.search + '&d='+ vm.dateRangeValue
                 try {
                     let response = await axios.get(page_url)
                     if(response.data.error){
                         vm.noResult = response.data.error;
-                        vm.pagination.current_page = 0;
-                        vm.pagination.last_page = 0;
                     }else{
                         vm.noResult = '';
                     }
@@ -84,6 +125,21 @@
                 }catch(err){
                     console.log(err)
                 }
+
+            },
+            */
+            fetchOrderProduct: async function(){
+                let vm = this;
+                let page_url = 'api/order-products?q=' + vm.search + '&d='+ vm.dateRangeValue
+                await axios.get(page_url)
+                .then( response => {
+                    response.data.error ? vm.noResult = response.data.error : vm.noResult = '';
+                    vm.orderProducts = response.data.data;
+                    vm.total = response.data.total;
+                })
+                .catch( error => {
+                    console.log(error);
+                });
             },
             makePagination: function(meta, links){
                 let pagination = {
