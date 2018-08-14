@@ -1,11 +1,18 @@
 import Vue from 'vue';
 import axios from 'axios';
 import * as uiv from 'uiv'
+import ElementUI from 'element-ui';
+import '../sass/element-variables.scss'
+import lang from 'element-ui/lib/locale/lang/en'
+import locale from 'element-ui/lib/locale'
 
 window.Popper = require('popper.js').default;
 window.Vue = Vue;
 window.axios = axios;
 Vue.use(uiv)
+Vue.use(ElementUI)
+
+locale.use(lang)
 
 try {
     window.$ = window.jQuery = require('jquery');

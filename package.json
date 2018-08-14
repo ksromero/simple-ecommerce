@@ -20,6 +20,8 @@
         "vue": "^2.5.7"
     },
     "dependencies": {
-        "uiv": "^0.25.0"
+        "element-ui": "^2.4.5",
+        "uiv": "^0.25.0",
+        "vue-rangedate-picker": "^0.3.4"
     }
 }

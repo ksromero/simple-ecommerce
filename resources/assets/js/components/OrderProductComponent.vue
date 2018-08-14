@@ -6,7 +6,9 @@
                 <div class="form-inline form-group">
                     <input type="text" class="form-control" v-on:input="fetchOrderProduct()" v-model="search" placeholder="Search Product Name">
                     <span v-show="search" class="glyphicon glyphicon-remove" aria-hidden="true" @click="clearSearch()"></span>
+                   
                 </div>
+                
                    <span class="bg-success"> Total Overall Income </span> <strong>PHP {{ total }}</strong>
                     <hr>
                 <table class="table table-striped table-responsive">
@@ -51,8 +53,8 @@
                  noResult:{},
                  total:'',
                  pagination:{},
-                 search:''
-            }   
+                 search:'',
+            }
         },
 
         created(){

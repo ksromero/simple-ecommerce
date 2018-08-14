@@ -6,8 +6,6 @@ Vue.component('orders', require('./components/OrdersComponent.vue'));
 Vue.component('display-products', require('./components/DisplayProducts.vue'));
 Vue.component('order-products', require('./components/OrderProductComponent.vue'));
 
-
-
 const app = new Vue({
     el: '#app'
 });

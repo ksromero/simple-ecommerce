@@ -4,6 +4,19 @@
         <div class="form-inline form-group">
             <input type="text" class="form-control" v-on:input="fetchOrders()" v-model="search" placeholder="Search Customer Name">
             <span v-show="search" class="glyphicon glyphicon-remove" aria-hidden="true" @click="clearSearch()"></span>
+           <span v-show="dateRangeValue" class="glyphicon glyphicon-remove pull-right" aria-hidden="true" @click="clearSearchDate()"></span>
+            <el-date-picker class="pull-right"
+                v-model="dateRangeValue"
+                type="daterange"
+                align="right"
+                unlink-panels
+                :clearable="false"
+                range-separator="To"
+                start-placeholder="Start date"
+                end-placeholder="End date"
+                @input="fetchOrders()"
+                :picker-options="pickerOptions2">
+            </el-date-picker>
         </div>
         <!-- Modal -->
         <modal v-model="orderModal" :header="false" size="lg" :dismiss-btn="false" :footer="false">
@@ -118,7 +131,35 @@
          pagination: {},
          noResult: {},
          search:'',
-         orderModal: false
+         orderModal: false,
+         pickerOptions2: {
+          shortcuts: [{
+            text: 'Last week',
+            onClick(picker) {
+              const end = new Date();
+              const start = new Date();
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+              picker.$emit('pick', [start, end]);
+            }
+          }, {
+            text: 'Last month',
+            onClick(picker) {
+              const end = new Date();
+              const start = new Date();
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+              picker.$emit('pick', [start, end]);
+            }
+          }, {
+            text: 'Last 3 months',
+            onClick(picker) {
+              const end = new Date();
+              const start = new Date();
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
+              picker.$emit('pick', [start, end]);
+            }
+          }]
+        },
+        dateRangeValue: ''
        }
      },
 
@@ -128,12 +169,16 @@
 
      methods: {
         clearSearch: function(){
-            this.search = '',
+            this.search = ''
+            this.fetchOrders();
+        },
+        clearSearchDate:function(){
+            this.dateRangeValue = '',
             this.fetchOrders();
         },
        fetchOrders: async function(page_url){
           let vm = this;
-          page_url = page_url || 'api/orders?q=' + vm.search
+          page_url = page_url || 'api/orders?q=' + vm.search +'&d='+ vm.dateRangeValue
           try {
               let response = await axios.get(page_url)
               if(response.data.error){
