@@ -35,25 +35,36 @@
             <span v-show="search" class="glyphicon glyphicon-remove" aria-hidden="true" @click="clearSearch()"></span>
         </div>
         <!-- Viewing of Employee -->
-        <div class="well">
-            <div v-if="Object.keys(noResult).length > 0">
-                <span class="alert-danger">No Results Found</span>
-            </div>
-            <div class="panel panel-info" v-for="employee in employees" :key="employee.id" style="margin-top:15px;">
-                <button type="button" class="btn btn-link pull-right" @click="deleteEmployee(employee.id)"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete</button>
-                <button type="button" class="btn btn-link pull-right" @click="editEmployee(employee.id)"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> Edit</button>
-                <div class="panel-heading">
-                    <h3 class="panel-title">{{ employee.name }}</h3>
-                </div>
-
-                <div class="panel-body">
-                    Email: {{ employee.email }}<br>
-                    Type: {{ employee.role.role_name }}<br>
-                </div>
-                <div class="panel-footer"><small>Created At {{ employee.created_at.formatted }}</small></div>
-            </div>
-        </div>
-
+        <div class="panel panel-default">
+          <div class="panel-body">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th class="col-md-2 col-lg-2">Name of Employee</th>
+                        <th class="col-md-2 col-lg-2">Email</th>
+                        <th class="col-md-2 col-lg-2">Type</th>
+                        <th class="col-md-2 col-lg-2">Created At</th>
+                        <th class="col-md-2 col-lg-2 text-center">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                     <tr v-if="Object.keys(noResult).length > 0">
+                        <td class="text-center" colspan="4">No Results Found</td>
+                     </tr>
+                    <tr v-for="employee in employees" :key="employee.id">
+                        <td>{{ employee.name }}</td>
+                        <td>{{ employee.email }}</td>
+                        <td>{{ employee.role.role_name }}</td>
+                        <td>{{ employee.created_at }}</td>
+                        <td>
+                            <button type="button" class="btn btn-link" @click="editEmployee(employee.id)"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> Edit</button>                          
+                            <button type="button" class="btn btn-link" @click="deleteEmployee(employee.id)"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+          </div>
+          
         <small class="pull-right">{{pagination.current_page}} of {{pagination.last_page}}</small>
         <nav aria-label="...">
             <ul class="pager">
@@ -61,6 +72,9 @@
                 <li :class="[{disabled: !pagination.next_page_url}]" ><a href="#" @click="!!pagination.next_page_url && fetchEmployees(pagination.next_page_url)">Next</a></li>
             </ul>
         </nav> 
+        </div>
+        
+    
     </section>
 </template>
 

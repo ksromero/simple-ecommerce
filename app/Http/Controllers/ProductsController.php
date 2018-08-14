@@ -17,8 +17,7 @@ class ProductsController extends Controller
         $products = Product::with('orders')->latest();
         if (request()->has('q')) {
             $keyword = '%'.request()->get('q').'%';
-            $builder = $products;
-            $builder = $builder->where('name', 'like', $keyword);
+            $builder = $products->where('name', 'like', $keyword);
             $builder->count() ? $products = $builder : $errorFound = true;
         }
        return $errorFound === false ? ProductsResource::collection($products->paginate(6)) : $error;
@@ -28,7 +27,7 @@ class ProductsController extends Controller
         $this->validate($request, [
             'name' => 'required|max:255',
             'price' => 'required|numeric',
-            'cover_image' => 'image|required|image64:jpeg,jpg,png|max:2048'
+            'cover_image' => 'required|image64:jpeg,jpg,png'
         ]);
         $image = $request->input('cover_image');
         $name = time().'.' . explode('/', explode(':', substr($image, 0, strpos($image, ';')))[1])[1];
@@ -47,7 +46,7 @@ class ProductsController extends Controller
         $this->validate($request, [
             'name' => 'required|max:255',
             'price' => 'required|numeric',
-            'cover_image' => 'image|required|image64:jpeg,jpg,png|max:2048'
+            'cover_image' => 'required|image64:jpeg,jpg,png'
         ]);
        $product = Product::findOrFail($id);
        $image = $request->input('cover_image');
