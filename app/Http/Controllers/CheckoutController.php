@@ -23,7 +23,7 @@ class CheckoutController extends Controller
         }
         $oldCart = session()->get('cart');
         $cart = new Cart($oldCart);
-        dd($cart);
+        //dd($cart);
         return view('checkout.index',['products' => $cart->items, 'totalPrice' => $cart->totalPrice]);
     }
     public function getExpressCheckout(Request $request){
