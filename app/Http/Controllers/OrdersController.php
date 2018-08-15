@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Order;
 use Carbon\Carbon;
 use App\Http\Resources\OrdersResource;
+use App\Http\Resources\OrdersResourceCollection;
 
 class OrdersController extends Controller
 {
@@ -24,12 +25,14 @@ class OrdersController extends Controller
                 'end' =>  Carbon::parse(substr(request()->get('d'), 64, -44))->endOfDay()
             ];
             $products = $products->whereBetween('created_at', [$arr['start'],$arr['end']]);
+        }else{
+            $now = Carbon::now();
+            $week = $now->startOfWeek();
+            $products = $products->where('created_at','>',$week);
         }
         $products->count() ? $orders = $products : $errorFound = true;
-        return $errorFound === false ? OrdersResource::collection($orders->latest()
-                                                                         ->paginate(10)
-                                                                         ->appends(request()->query())) 
-                                                                         : $error;
+
+        return $errorFound === false ?  new OrdersResourceCollection($orders->latest()->get()) : $error;
     }
     public function show($id){
         $order = Order::findOrFail($id);

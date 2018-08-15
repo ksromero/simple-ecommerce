@@ -48570,6 +48570,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
       pagination: {},
       noResult: {},
       search: '',
+      total: '',
       orderModal: false,
       pickerOptions2: {
         shortcuts: [{
@@ -48639,22 +48640,23 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
                   vm.noResult = '';
                 }
                 vm.orders = response.data.data;
+                vm.total = response.data.total;
                 vm.makePagination(response.data.meta, response.data.links);
-                _context.next = 14;
+                _context.next = 15;
                 break;
 
-              case 11:
-                _context.prev = 11;
+              case 12:
+                _context.prev = 12;
                 _context.t0 = _context['catch'](2);
 
                 console.log(_context.t0);
 
-              case 14:
+              case 15:
               case 'end':
                 return _context.stop();
             }
           }
-        }, _callee, this, [[2, 11]]);
+        }, _callee, this, [[2, 12]]);
       }));
 
       function fetchOrders(_x) {
@@ -48865,7 +48867,7 @@ var render = function() {
                   _c("td", { staticClass: "bg-warning" }, [_vm._v("Subtotal")]),
                   _vm._v(" "),
                   _c("td", { staticClass: "bg-warning" }, [
-                    _vm._v(_vm._s(_vm.order.sub_total))
+                    _vm._v("₱ " + _vm._s(_vm.order.sub_total))
                   ])
                 ]),
                 _vm._v(" "),
@@ -48875,7 +48877,7 @@ var render = function() {
                   _c("td", { staticClass: "bg-warning" }, [_vm._v("Discount")]),
                   _vm._v(" "),
                   _c("td", { staticClass: "bg-warning" }, [
-                    _vm._v(_vm._s(_vm.order.discount))
+                    _vm._v("₱ " + _vm._s(_vm.order.discount))
                   ])
                 ]),
                 _vm._v(" "),
@@ -48887,7 +48889,7 @@ var render = function() {
                   ]),
                   _vm._v(" "),
                   _c("td", { staticClass: "bg-success" }, [
-                    _vm._v(_vm._s(_vm.order.total_price))
+                    _vm._v("₱ " + _vm._s(_vm.order.total))
                   ])
                 ])
               ])
@@ -48935,7 +48937,7 @@ var render = function() {
                     _vm._v(" "),
                     _c("td", [_vm._v(_vm._s(items.pivot.quantity))]),
                     _vm._v(" "),
-                    _c("td", [_vm._v(_vm._s(items.price))]),
+                    _c("td", [_vm._v("₱ " + _vm._s(items.price))]),
                     _vm._v(" "),
                     _c("td", [
                       _c("span", { staticClass: "fa fa-check bg-success" })
@@ -48985,54 +48987,22 @@ var render = function() {
                   _vm._v(" "),
                   _c("td", [_vm._v(_vm._s(order.customer.name))]),
                   _vm._v(" "),
-                  _c("td", [_vm._v(_vm._s(order.total_price))])
+                  _c("td", [_vm._v("₱ " + _vm._s(order.total))])
                 ])
               })
             ],
             2
-          )
-        ]),
-        _vm._v(" "),
-        _c("small", { staticClass: "pull-right" }, [
-          _vm._v(
-            _vm._s(_vm.pagination.current_page) +
-              " of " +
-              _vm._s(_vm.pagination.last_page)
-          )
-        ]),
-        _vm._v(" "),
-        _c("nav", { attrs: { "aria-label": "..." } }, [
-          _c("ul", { staticClass: "pager" }, [
-            _c("li", { class: [{ disabled: !_vm.pagination.prev_page_url }] }, [
-              _c(
-                "a",
-                {
-                  attrs: { href: "#" },
-                  on: {
-                    click: function($event) {
-                      !!_vm.pagination.prev_page_url &&
-                        _vm.fetchOrders(_vm.pagination.prev_page_url)
-                    }
-                  }
-                },
-                [_vm._v("Previous")]
-              )
-            ]),
-            _vm._v(" "),
-            _c("li", { class: [{ disabled: !_vm.pagination.next_page_url }] }, [
-              _c(
-                "a",
-                {
-                  attrs: { href: "#" },
-                  on: {
-                    click: function($event) {
-                      !!_vm.pagination.next_page_url &&
-                        _vm.fetchOrders(_vm.pagination.next_page_url)
-                    }
-                  }
-                },
-                [_vm._v("Next")]
-              )
+          ),
+          _vm._v(" "),
+          _c("tfoot", [
+            _c("tr", [
+              _c("td", { staticClass: "bg-success" }),
+              _vm._v(" "),
+              _c("td", { staticClass: "bg-success" }),
+              _vm._v(" "),
+              _c("td", { staticClass: "bg-success" }, [
+                _c("strong", [_vm._v(" ₱ " + _vm._s(_vm.total) + " | Total")])
+              ])
             ])
           ])
         ])
@@ -49750,19 +49720,6 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -49771,35 +49728,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
             noResult: {},
             total: '',
             pagination: {},
-            search: '',
-            pickerOptions2: {
-                shortcuts: [{
-                    text: 'Last week',
-                    onClick: function onClick(picker) {
-                        var end = new Date();
-                        var start = new Date();
-                        start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
-                        picker.$emit('pick', [start, end]);
-                    }
-                }, {
-                    text: 'Last month',
-                    onClick: function onClick(picker) {
-                        var end = new Date();
-                        var start = new Date();
-                        start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
-                        picker.$emit('pick', [start, end]);
-                    }
-                }, {
-                    text: 'Last 3 months',
-                    onClick: function onClick(picker) {
-                        var end = new Date();
-                        var start = new Date();
-                        start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
-                        picker.$emit('pick', [start, end]);
-                    }
-                }]
-            },
-            dateRangeValue: ''
+            search: ''
         };
     },
     created: function created() {
@@ -49810,9 +49739,6 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
     methods: {
         clearSearch: function clearSearch() {
             this.search = '', this.fetchOrderProduct();
-        },
-        clearSearchDate: function clearSearchDate() {
-            this.dateRangeValue = '', this.fetchOrderProduct();
         },
         /*
         fetchOrderProduct: async function(){
@@ -49841,7 +49767,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
                         switch (_context.prev = _context.next) {
                             case 0:
                                 vm = this;
-                                page_url = 'api/order-products?q=' + vm.search + '&d=' + vm.dateRangeValue;
+                                page_url = 'api/order-products?q=' + vm.search;
                                 _context.next = 4;
                                 return axios.get(page_url).then(function (response) {
                                     response.data.error ? vm.noResult = response.data.error : vm.noResult = '';
@@ -49888,101 +49814,52 @@ var render = function() {
   return _c("section", [
     _c("div", { staticClass: "panel panel-default" }, [
       _c("div", { staticClass: "panel-body" }, [
-        _c(
-          "div",
-          { staticClass: "form-inline form-group" },
-          [
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.search,
-                  expression: "search"
-                }
-              ],
-              staticClass: "form-control",
-              attrs: { type: "text", placeholder: "Search Product Name" },
-              domProps: { value: _vm.search },
-              on: {
-                input: [
-                  function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.search = $event.target.value
-                  },
-                  function($event) {
-                    _vm.fetchOrderProduct()
+        _c("div", { staticClass: "form-inline form-group" }, [
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.search,
+                expression: "search"
+              }
+            ],
+            staticClass: "form-control",
+            attrs: { type: "text", placeholder: "Search Product Name" },
+            domProps: { value: _vm.search },
+            on: {
+              input: [
+                function($event) {
+                  if ($event.target.composing) {
+                    return
                   }
-                ]
-              }
-            }),
-            _vm._v(" "),
-            _c("span", {
-              directives: [
-                {
-                  name: "show",
-                  rawName: "v-show",
-                  value: _vm.search,
-                  expression: "search"
-                }
-              ],
-              staticClass: "glyphicon glyphicon-remove",
-              attrs: { "aria-hidden": "true" },
-              on: {
-                click: function($event) {
-                  _vm.clearSearch()
-                }
-              }
-            }),
-            _vm._v(" "),
-            _c("span", {
-              directives: [
-                {
-                  name: "show",
-                  rawName: "v-show",
-                  value: _vm.dateRangeValue,
-                  expression: "dateRangeValue"
-                }
-              ],
-              staticClass: "glyphicon glyphicon-remove pull-right",
-              attrs: { "aria-hidden": "true" },
-              on: {
-                click: function($event) {
-                  _vm.clearSearchDate()
-                }
-              }
-            }),
-            _vm._v(" "),
-            _c("el-date-picker", {
-              staticClass: "pull-right",
-              attrs: {
-                type: "daterange",
-                align: "right",
-                "unlink-panels": "",
-                clearable: false,
-                "range-separator": "To",
-                "start-placeholder": "Start date",
-                "end-placeholder": "End date",
-                "picker-options": _vm.pickerOptions2
-              },
-              on: {
-                input: function($event) {
+                  _vm.search = $event.target.value
+                },
+                function($event) {
                   _vm.fetchOrderProduct()
                 }
-              },
-              model: {
-                value: _vm.dateRangeValue,
-                callback: function($$v) {
-                  _vm.dateRangeValue = $$v
-                },
-                expression: "dateRangeValue"
+              ]
+            }
+          }),
+          _vm._v(" "),
+          _c("span", {
+            directives: [
+              {
+                name: "show",
+                rawName: "v-show",
+                value: _vm.search,
+                expression: "search"
               }
-            })
-          ],
-          1
-        ),
+            ],
+            staticClass: "glyphicon glyphicon-remove",
+            attrs: { "aria-hidden": "true" },
+            on: {
+              click: function($event) {
+                _vm.clearSearch()
+              }
+            }
+          })
+        ]),
         _vm._v(" "),
         _c("hr"),
         _vm._v(" "),
@@ -50011,7 +49888,7 @@ var render = function() {
                   _c("td", [_vm._v(_vm._s(orderProduct.quantity))]),
                   _vm._v(" "),
                   _c("td", { staticClass: "bg-warning" }, [
-                    _vm._v("PHP " + _vm._s(orderProduct.income))
+                    _vm._v("₱ " + _vm._s(orderProduct.income))
                   ])
                 ])
               })
@@ -50028,8 +49905,7 @@ var render = function() {
               _c("td", { staticClass: "bg-success" }),
               _vm._v(" "),
               _c("td", { staticClass: "bg-success" }, [
-                _c("strong", [_vm._v("Total ")]),
-                _vm._v(" PHP " + _vm._s(_vm.total))
+                _c("strong", [_vm._v("₱ " + _vm._s(_vm.total) + " | Total ")])
               ])
             ])
           ])

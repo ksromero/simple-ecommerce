@@ -20,7 +20,7 @@ class Order extends Model
         return round($sub_total,2);
     }
     public function getDiscountAttribute() { 
-       return round((10 / 100) * $this->subtotal, 2);
+        return round((10 / 100) * $this->subtotal, 2);
     }
     public function getTotalAttribute(){
         return round(($this->subtotal - $this->discount), 2);
