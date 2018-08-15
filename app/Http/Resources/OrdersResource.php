@@ -7,12 +7,6 @@ use Carbon\Carbon;
 
 class OrdersResource extends JsonResource
 {
-    /**
-     * Transform the resource into an array.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return array
-     */
     public function toArray($request)
     {
         return [
@@ -20,9 +14,9 @@ class OrdersResource extends JsonResource
             'address' => $this->address,
             'sub_total' => $this->subtotal,
             'discount' => $this->discount,
-            'total_price' => $this->total,
+            'total' => $this->total,
             'created_at' => Carbon::parse($this->created_at)->format('F d, Y h:i:s A'),
-            'customer' => $this->user,
+            'customer' => new UserResource($this->user),
             'items' => ProductsResource::collection($this->products)
         ];
     }

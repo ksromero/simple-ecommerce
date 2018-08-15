@@ -44,17 +44,17 @@
                         <tr>
                             <td></td>
                             <td class="bg-warning">Subtotal</td>
-                            <td class="bg-warning">{{ order.sub_total }}</td>
+                            <td class="bg-warning">&#8369; {{ order.sub_total }}</td>
                         </tr>
                         <tr>
                             <td></td>
                             <td class="bg-warning">Discount</td>
-                            <td class="bg-warning">{{ order.discount }}</td>
+                            <td class="bg-warning">&#8369; {{ order.discount }}</td>
                         </tr>
                         <tr>
                             <td></td>
                             <td class="bg-success"><strong>Total</strong></td>
-                            <td class="bg-success">{{ order.total_price }}</td>
+                            <td class="bg-success">&#8369; {{ order.total }}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -77,7 +77,7 @@
                             <td>{{items.name}}</td>
                             <td>{{items.description}}</td>
                             <td>{{items.pivot.quantity}}</td>
-                            <td>{{items.price}}</td>
+                            <td>&#8369; {{items.price}}</td>
                             <td><span class="fa fa-check bg-success"></span></td>
                         </tr>                    
                     </tbody>
@@ -101,17 +101,17 @@
                         <tr v-for="order in orders" :key="order.id">
                             <td><a href="#" @click="fetchOrder(order.id)" class="panel-title"><u>{{ order.created_at }}</u></a></td>
                             <td>{{order.customer.name}}</td>
-                            <td>{{order.total_price}}</td>
+                            <td>&#8369; {{order.total}}</td>
                         </tr>
                     </tbody>
+                     <tfoot>
+                        <tr>
+                          <td class="bg-success"> </td>
+                          <td class="bg-success"> </td>
+                          <td class="bg-success"><strong> &#8369; {{ total }} | Total</strong></td>
+                        </tr>
+                    </tfoot>
                 </table>
-            <small class="pull-right">{{pagination.current_page}} of {{pagination.last_page}}</small>
-            <nav aria-label="...">
-                <ul class="pager">
-                    <li :class="[{disabled: !pagination.prev_page_url}]" ><a href="#" @click="!!pagination.prev_page_url && fetchOrders(pagination.prev_page_url)">Previous</a></li>
-                    <li :class="[{disabled: !pagination.next_page_url}]" ><a href="#" @click="!!pagination.next_page_url && fetchOrders(pagination.next_page_url)">Next</a></li>
-                </ul>
-            </nav> 
         </div>
 
         
@@ -128,6 +128,7 @@
          pagination: {},
          noResult: {},
          search:'',
+         total:'',
          orderModal: false,
          pickerOptions2: {
           shortcuts: [{
@@ -186,6 +187,7 @@
                   vm.noResult = '';
               }
               vm.orders = response.data.data;
+               vm.total = response.data.total;
               vm.makePagination(response.data.meta, response.data.links);
           }catch(err){
               console.log(err)

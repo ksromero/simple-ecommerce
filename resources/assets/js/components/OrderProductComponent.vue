@@ -6,19 +6,6 @@
                 <div class="form-inline form-group">
                     <input type="text" class="form-control" v-on:input="fetchOrderProduct()" v-model="search" placeholder="Search Product Name">
                     <span v-show="search" class="glyphicon glyphicon-remove" aria-hidden="true" @click="clearSearch()"></span>
-                    <span v-show="dateRangeValue" class="glyphicon glyphicon-remove pull-right" aria-hidden="true" @click="clearSearchDate()"></span>
-                        <el-date-picker class="pull-right"
-                            v-model="dateRangeValue"
-                            type="daterange"
-                            align="right"
-                            unlink-panels
-                            :clearable="false"
-                            range-separator="To"
-                            start-placeholder="Start date"
-                            end-placeholder="End date"
-                            @input="fetchOrderProduct()"
-                            :picker-options="pickerOptions2">
-                        </el-date-picker>
                 </div>
                 <hr>      
                 <table class="table table-striped table-responsive">
@@ -38,7 +25,7 @@
                             <td>{{orderProduct.name}}</td>
                             <td>{{orderProduct.description}}</td>
                             <td>{{orderProduct.quantity}}</td>
-                            <td class="bg-warning">PHP {{orderProduct.income}}</td>
+                            <td class="bg-warning">&#8369; {{orderProduct.income}}</td>
                         </tr>
                     </tbody>
                      <tfoot>
@@ -46,7 +33,7 @@
                           <td class="bg-success"> </td>
                           <td class="bg-success"> </td>
                           <td class="bg-success"> </td>
-                          <td class="bg-success"><strong>Total </strong> PHP {{ total }}</td>
+                          <td class="bg-success"><strong>&#8369; {{ total }} | Total </strong></td>
                         </tr>
                     </tfoot>
                 </table>
@@ -64,34 +51,6 @@
                  total:'',
                  pagination:{},
                  search:'',
-                 pickerOptions2: {
-                  shortcuts: [{
-                    text: 'Last week',
-                    onClick(picker) {
-                      const end = new Date();
-                      const start = new Date();
-                      start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
-                      picker.$emit('pick', [start, end]);
-                    }
-                  }, {
-                    text: 'Last month',
-                    onClick(picker) {
-                      const end = new Date();
-                      const start = new Date();
-                      start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
-                      picker.$emit('pick', [start, end]);
-                    }
-                  }, {
-                    text: 'Last 3 months',
-                    onClick(picker) {
-                      const end = new Date();
-                      const start = new Date();
-                      start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
-                      picker.$emit('pick', [start, end]);
-                    }
-                  }]
-                },
-                dateRangeValue: ''
             }
         },
 
@@ -102,10 +61,6 @@
         methods: {
             clearSearch: function(){
                 this.search = '',
-                this.fetchOrderProduct();
-            },
-            clearSearchDate:function(){
-                this.dateRangeValue = '',
                 this.fetchOrderProduct();
             },
             /*
@@ -130,7 +85,7 @@
             */
             fetchOrderProduct: async function(){
                 let vm = this;
-                let page_url = 'api/order-products?q=' + vm.search + '&d='+ vm.dateRangeValue
+                let page_url = 'api/order-products?q=' + vm.search
                 await axios.get(page_url)
                 .then( response => {
                     response.data.error ? vm.noResult = response.data.error : vm.noResult = '';
