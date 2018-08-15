@@ -18,5 +18,6 @@ class CollectionsController extends Controller
             $builder->count() ? $products = $builder : $errorFound = true;
         }
         return $errorFound === false ? new OrderProductResourceCollection($products->get()) : $error;
+        
     }
 }
