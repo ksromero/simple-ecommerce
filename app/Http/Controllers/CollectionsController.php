@@ -9,7 +9,6 @@ use App\Http\Resources\OrderProductResourceCollection;
 class CollectionsController extends Controller
 {
     public function index(){
-        $test = '';
         $errorFound = false;
         $error = ['error' => 'No Results Found'];
         $products = Product::with('orders');
