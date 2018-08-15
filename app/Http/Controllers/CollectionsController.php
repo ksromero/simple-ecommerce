@@ -17,13 +17,6 @@ class CollectionsController extends Controller
             $builder = $products->where('name', 'like', $keyword);
             $builder->count() ? $products = $builder : $errorFound = true;
         }
-        if(request()->has('d') && request()->get('d')){
-            $arr = [
-                'start' => Carbon::parse(substr(request()->get('d'), 4, 11))->startOfDay(),
-                'end' =>  Carbon::parse(substr(request()->get('d'), 64, -44))->endOfDay()
-            ];
-            $products = $products->whereBetween('created_at', [$arr['start'],$arr['end']]);
-        }
         return $errorFound === false ? new OrderProductResourceCollection($products->get()) : $error;
     }
 }
