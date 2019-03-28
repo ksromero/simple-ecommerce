@@ -18,7 +18,7 @@ try {
     require('bootstrap');
 } catch (e) {}
 
-axios.defaults.baseURL = 'http://localhost/eapp/public/';
+axios.defaults.baseURL = 'http://localhost/simple-ecommerce/public/';
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 let token = document.head.querySelector('meta[name="csrf-token"]');
 

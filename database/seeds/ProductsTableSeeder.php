@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use App\Product;
 
 class ProductsTableSeeder extends Seeder
 {
@@ -11,6 +12,11 @@ class ProductsTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(App\Product::class, 1)->create();
+    	Product::create([
+    		'name' => $faker->text(15),
+	        'description' => $faker->text(25),
+	        'price' => $faker->randomFloat(NULL, 2, 8),
+	        'cover_image' => $faker->imageUrl(),
+    	]);
     }
 }

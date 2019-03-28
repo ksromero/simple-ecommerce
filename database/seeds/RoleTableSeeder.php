@@ -1,16 +1,22 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use App\Role;
 
 class RoleTableSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     *
-     * @return void
-     */
+	private $roles = [
+		'admin',
+		'employee',
+		'customer'
+	];
+ 
      public function run()
      {
-         factory(App\Role::class, 1)->create();
+     	foreach($this->roles as $role){
+	         Role::create([
+	         	'role_name' => $role
+	         ]);
+     	}
      }
 }

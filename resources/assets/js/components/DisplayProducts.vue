@@ -16,7 +16,7 @@
             <div class="row">
                 <div class="col-sm-6 col-md-4" v-for="product in products" :key="product.id">
                 <div class="thumbnail">
-                    <img class="thumbnail" :src="'http://localhost/eapp/public/cover_images/' + product.cover_image" style="margin-top:20px;" alt="...">
+                    <img class="thumbnail" :src="'http://localhost/simple-ecommerce/public/cover_images/' + product.cover_image" style="margin-top:20px;" alt="...">
                     <div class="caption">
                         <h3>{{ product.name }}</h3>
                         <hr>
@@ -44,7 +44,7 @@
        <modal v-model="productModal" size="md" :header="false" :dismiss-btn="false">
             <div class="row">
               <div class="col-md-6">
-                  <img class="img-responsive" :src="'http://localhost/eapp/public/cover_images/'+ product.cover_image">
+                  <img class="img-responsive" :src="'http://localhost/simple-ecommerce/public/cover_images/'+ product.cover_image">
               </div>
               <div class="col-md-6">
                 <strong>{{product.name}}</strong><br>
@@ -67,7 +67,7 @@
           </div>
         </modal>
     </section>
-    <!-- <img :src="'http://localhost/eapp/public/cover_images/' + product.cover_image" alt="..."> -->
+    <!-- <img :src="'http://localhost/simple-ecommerce/public/cover_images/' + product.cover_image" alt="..."> -->
 </template>
 
 <script>

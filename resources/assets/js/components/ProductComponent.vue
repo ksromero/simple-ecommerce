@@ -57,7 +57,7 @@
                 <div class="panel-body">
                     <div class="col-xs-12 col-md-3">
                         <a href="#" class="thumbnail">
-                            <img :src="'http://localhost/eapp/public/cover_images/' + product.cover_image" alt="...">
+                            <img :src="'http://localhost/simple-ecommerce/public/cover_images/' + product.cover_image" alt="...">
                         </a>
                     </div>
                     <div style="margin-top:30px;">

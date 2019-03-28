@@ -25791,7 +25791,7 @@ try {
     __webpack_require__(73);
 } catch (e) {}
 
-__WEBPACK_IMPORTED_MODULE_1_axios___default.a.defaults.baseURL = 'http://localhost/eapp/public/';
+__WEBPACK_IMPORTED_MODULE_1_axios___default.a.defaults.baseURL = 'http://localhost/simple-ecommerce/public/';
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 var token = document.head.querySelector('meta[name="csrf-token"]');
 
@@ -47416,7 +47416,7 @@ var render = function() {
                         _c("img", {
                           attrs: {
                             src:
-                              "http://localhost/eapp/public/cover_images/" +
+                              "http://localhost/simple-ecommerce/public/cover_images/" +
                               product.cover_image,
                             alt: "..."
                           }
@@ -49393,7 +49393,7 @@ var render = function() {
                     staticStyle: { "margin-top": "20px" },
                     attrs: {
                       src:
-                        "http://localhost/eapp/public/cover_images/" +
+                        "http://localhost/simple-ecommerce/public/cover_images/" +
                         product.cover_image,
                       alt: "..."
                     }
@@ -49519,7 +49519,7 @@ var render = function() {
                 staticClass: "img-responsive",
                 attrs: {
                   src:
-                    "http://localhost/eapp/public/cover_images/" +
+                    "http://localhost/simple-ecommerce/public/cover_images/" +
                     _vm.product.cover_image
                 }
               })
